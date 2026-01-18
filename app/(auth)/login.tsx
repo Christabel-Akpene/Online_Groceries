@@ -1,9 +1,19 @@
-import { Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import { Link } from "expo-router";
+import { useRouter, Link } from "expo-router";
+import {
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 const carrotIcon = require("@/assets/images/carrot2.png");
 
-
 const Login = () => {
+  const router = useRouter();
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -13,7 +23,7 @@ const Login = () => {
         <View style={styles.container}>
           <Image
             source={carrotIcon}
-            style={{ alignSelf: "center", marginTop: 32 }} 
+            style={{ alignSelf: "center", marginTop: 32 }}
           />
 
           <View style={styles.content}>
@@ -47,7 +57,10 @@ const Login = () => {
               Forgot Password?
             </Text>
 
-            <Pressable style={styles.button}>
+            <Pressable
+              onPress={ () => router.navigate("/(tabs)/shop") }
+              style={styles.button}
+            >
               <Text style={styles.buttonText}>Log In</Text>
             </Pressable>
 
@@ -73,8 +86,8 @@ const Login = () => {
 export default Login;
 
 const styles = StyleSheet.create({
-  container:{
-    flex: 1
+  container: {
+    flex: 1,
   },
   content: {
     flex: 1,

@@ -9,10 +9,11 @@ import {
   Pressable,
   ScrollView
 } from "react-native";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 const carrotIcon = require("@/assets/images/carrot2.png");
 
 const Signup = () => {
+  const router = useRouter();
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -64,7 +65,7 @@ const Signup = () => {
               <Text style={{ color: "#53b175" }}> Privacy Policy.</Text>
             </Text>
 
-            <Pressable style={styles.button}>
+            <Pressable onPress={ () => router.navigate("/(tabs)/shop") } style={styles.button}>
               <Text style={styles.buttonText}>Log In</Text>
             </Pressable>
 
