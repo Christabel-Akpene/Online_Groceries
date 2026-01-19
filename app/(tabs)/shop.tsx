@@ -1,32 +1,63 @@
-import { Dimensions, Image, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Dimensions, Image, ScrollView, SectionList, StyleSheet, Text, TextInput, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Feather from "@expo/vector-icons/Feather";
+import { sectionedData } from '@/app/constants/sectionedData';
+import ItemCard from '../components/ItemCard';
+import { ItemSection } from "../interfaces";
+
 const carrotImage = require("@/assets/images/carrot2.png");
 const bannerImage = require("@/assets/images/banner.png");
-import { sectionedData } from '@/app/constants/sectionedData';
 
 const Shop = () => {
+
+  const renderSection = ({section}: {section: ItemSection}) => {
+    return (
+      <View style={{marginVertical: 12}}>
+        <Text style={{fontWeight: "500", fontSize: 18, marginBottom: 8}}> {section.title} </Text>
+        <ScrollView contentContainerStyle={{gap: 16}} horizontal showsHorizontalScrollIndicator={false}>
+          {section.data.map((item) => {
+            return (
+              <ItemCard key={item.id} price={item.price} name={item.name} scale={item.scale} image={item.image} id={item.id} />
+            )
+          })}
+        </ScrollView>
+      </View>
+    )
+  };
+
+  const ListHeaderComponent = () => {
+    return (
+      <>
+        <View style={styles.carrotImageContainer}>
+          <Image source={carrotImage} style={styles.carrotImage} />
+        </View>
+        <View style={styles.search}>
+          <View>
+            <Feather name="search" size={20} color="black" />
+          </View>
+          <TextInput placeholder="Search Store" />
+        </View>
+        <View style={{}}>
+          <Image
+            source={bannerImage}
+            resizeMode="contain"
+            style={styles.bannerImage}
+          />
+        </View>
+      </>
+    );
+  }
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1, padding: 12 }}>
-        <View style={{flex: 1}}>
-          <View style={styles.carrotImageContainer}>
-            <Image
-              source={carrotImage}
-              style={styles.carrotImage}
-            />
-          </View>
-          <View style={styles.search}>
-            <View>
-              <Feather name="search" size={20} color="black" />
-            </View>
-            <TextInput placeholder="Search Store" />
-          </View>
-          <View style={{}}>
-            <Image source={bannerImage} resizeMode='contain' style={styles.bannerImage}/>
-          </View>
-        </View>
-      </ScrollView>
+        <SectionList
+          sections={sectionedData}
+          renderItem={() => null}
+          keyExtractor={(item) => item.id}
+          renderSectionHeader={renderSection}
+          ListHeaderComponent={ListHeaderComponent}
+          contentContainerStyle={{padding: 12}}
+        />
     </SafeAreaView>
   );
 }
