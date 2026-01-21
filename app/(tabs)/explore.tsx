@@ -1,9 +1,11 @@
-import { StyleSheet, Text, View, TextInput, Image, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Image, ScrollView, Pressable } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Feather } from '@expo/vector-icons';
 import { categories } from '../constants/sectionedData';
+import { useRouter, Href } from "expo-router";
 
 const Explore = () => {
+  const router = useRouter();
   return (
     <SafeAreaView style={{ flex: 1, padding: 12 }}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -17,18 +19,19 @@ const Explore = () => {
           <TextInput placeholder="Search Store" />
         </View>
         <View style={styles.contentContainer}>
-          {categories.map(({ name, image, color, borderColor }, index) => {
+          {categories.map(({ name, image, color, borderColor, route }, index) => {
             return (
-              <View
-                key={index}
+              <Pressable
                 style={[
                   styles.content,
                   { borderColor: borderColor, backgroundColor: color },
                 ]}
+                onPress={() => router.navigate(route as Href)}
+                key={index}
               >
-                <Image source={image} />
-                <Text style={{ fontWeight:"bold" }}>{name}</Text>
-              </View>
+                  <Image source={image} />
+                  <Text style={{ fontWeight: "bold" }}>{name}</Text>
+              </Pressable>
             );
           })}
         </View>
@@ -70,6 +73,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "45%",
     height:150,
-  
   }
 });

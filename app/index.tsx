@@ -1,5 +1,5 @@
 import { ImageBackground, Text, View, StyleSheet, Image, Pressable } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 
 const backgroundImage = require("@/assets/images/bgImage.png");

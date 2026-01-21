@@ -18,4 +18,10 @@ export interface Categories{
     image: ImageSourcePropType,
     color: string,
     borderColor: string,
+    route: string
+}
+
+export interface ProductData {
+    name: string,
+    data: Item[]
 }
