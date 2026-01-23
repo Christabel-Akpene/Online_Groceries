@@ -1,8 +1,9 @@
-import { ScrollView, StyleSheet, Text, View, Image, Pressable } from "react-native";
+import { ScrollView, StyleSheet, Text, View, Pressable } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { ProductData } from "../interfaces";
 import ItemCard from "./ItemCard";
 import { useRouter } from "expo-router";
+
 
 const ProductPage = ({ name, data } : ProductData) => {
     const router = useRouter();
