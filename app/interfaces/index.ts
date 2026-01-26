@@ -8,6 +8,13 @@ export interface Item {
     image: ImageSourcePropType
 }
 
+export interface CartItemProp extends Item {
+  quantity: number,
+  increaseItemQuantity: () => void,
+  decreaseItemQuantity: () => void,
+  removeItem: () => void
+}
+
 export interface ItemSection {
     title: string,
     data: Item[]

@@ -23,7 +23,14 @@ const ItemCard = ({ name, price, scale, image, id }: Item) => {
 
       const storedCart = await AsyncStorage.getItem("cart");
       const cart = storedCart ? JSON.parse(storedCart) : [];
-      cart.push(selectedItem);
+      const existingItemIndex = cart.findIndex((item: any) => {
+        return item.id === id;
+      });
+      if (existingItemIndex !== -1) {
+        cart[existingItemIndex].quantity += 1;
+      } else {
+        cart.push({ ...selectedItem, quantity: 1 });
+      }
       await AsyncStorage.setItem("cart", JSON.stringify(cart));
 
       Toast.show({
@@ -32,11 +39,9 @@ const ItemCard = ({ name, price, scale, image, id }: Item) => {
         visibilityTime: 1500,
       });
 
-       
       setTimeout(() => {
         setCheckmarks((prev) => prev.filter((itemId) => itemId !== id));
       }, 2000);
-
     } catch (error) {
       console.log(error);
       setCheckmarks((prev) => prev.filter((itemId) => itemId !== id));

@@ -1,12 +1,13 @@
-import { StyleSheet, Text, View, TextInput, Image, ScrollView, Pressable } from 'react-native'
+import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CartItem from '../components/CartItem';
 import { useFocusEffect } from 'expo-router';
+import { CartItemProp } from '../interfaces';
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState<CartItemProp[]>([]);
 
   useFocusEffect(
     useCallback(() => {
@@ -23,6 +24,44 @@ const Cart = () => {
     }, [])
   );
 
+  const increaseItemQuantity = async (id: string) => {
+    const updatedItem = cartItems.map((item) => {
+        if (item.id === id){
+          return {... item, quantity: item.quantity + 1}
+        }
+        else{
+          return item
+        }
+    })
+    setCartItems(updatedItem);
+    await AsyncStorage.setItem("cart", JSON.stringify(updatedItem));
+  }
+
+  const decreaseItemQuantity = async (id: string) => {
+    const updatedItem = cartItems.map((item) => {
+      if (item.id === id){
+        return {...item, quantity: item.quantity - 1}
+      }
+      else {
+        return item;
+      }
+    })
+    .filter(item => item.quantity > 0)
+    setCartItems(updatedItem);
+    await AsyncStorage.setItem("cart", JSON.stringify(updatedItem));
+
+  }
+
+  const removeItem = async (id: string) => {
+    const updatedItem = cartItems.filter((item) => {
+      return item.id !== id
+    })
+    setCartItems(updatedItem);
+    await AsyncStorage.setItem("cart", JSON.stringify(updatedItem));
+
+  }
+
+
   return (
     <SafeAreaView style={{ flex: 1, padding: 12 }}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -32,8 +71,8 @@ const Cart = () => {
           </Text>
         </View>
         <View>
-          {cartItems.map(({ id, image, price, name, scale }, index) => {
-            return <CartItem key={`${index}-${id}`}  image={image} price={price} name={name} scale={scale} id={id} />;
+          {cartItems.map(({ id, image, price, name, scale, quantity }, index) => {
+            return <CartItem key={`${index}-${id}`}  image={image} price={price} name={name} scale={scale} id={id} quantity={quantity} increaseItemQuantity={()=>increaseItemQuantity(id)} decreaseItemQuantity={()=>decreaseItemQuantity(id)} removeItem={()=>removeItem(id)} />;
           })}
         </View>
       </ScrollView>
