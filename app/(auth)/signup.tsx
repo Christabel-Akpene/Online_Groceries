@@ -68,7 +68,7 @@ const Signup = () => {
             <Pressable onPress={ () => router.navigate("/(tabs)/shop") } style={styles.button}>
               <Text style={styles.buttonText}>Log In</Text>
             </Pressable>
-
+            
             <Text
               style={{
                 marginVertical: 12,
