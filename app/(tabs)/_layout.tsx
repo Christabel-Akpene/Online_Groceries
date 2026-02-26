@@ -15,10 +15,6 @@ const _layout = () => {
         title: "Cart",
         tabBarIcon: ({color, size}) => <Feather name='shopping-cart' size={size} color={color} />
     }}/>
-    <Tabs.Screen name='favourite' options={{
-        title: "Favourite",
-        tabBarIcon: ({color, size}) => <Feather name='heart' size={size} color={color} />
-    }}/>
     <Tabs.Screen name='account' options={{
         title: "Account",
         tabBarIcon: ({color, size}) => <MaterialCommunityIcons name='account-circle-outline' size={size} color={color} />
